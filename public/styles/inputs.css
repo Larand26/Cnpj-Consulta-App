@@ -1,0 +1,35 @@
+.input-cnpj-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.input-cnpj {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px 0 0 4px;
+}
+
+.input-cnpj:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.btn-search {
+  height: 100%;
+  padding: 10px;
+  background-color: #0c44aa;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 20px;
+  border-radius: 0 4px 4px 0;
+}
+
+.btn-search:hover {
+  background-color: #98bcff;
+}

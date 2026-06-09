@@ -4,3 +4,9 @@ body {
   border: 0;
   box-sizing: border-box;
 }
+
+main {
+  padding: 20px;
+  box-sizing: border-box;
+  width: 100%;
+}
