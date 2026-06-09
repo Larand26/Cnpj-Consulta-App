@@ -9,8 +9,8 @@ routes.get("/", (req: Request, res: Response) => {
   res.send("Hello from the routes!");
 });
 
-routes.post("/cnpj-consult", (req: Request, res: Response) => {
-  CnpjController.consultCnpj(req, res);
+routes.post("/cnpj-consult", async (req: Request, res: Response) => {
+  await CnpjController.consultCnpj(req, res);
 });
 
 export default routes;
