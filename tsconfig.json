@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    // Layout do Projeto
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    // Configurações para Node.js Moderno (ESM)
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+
+    // PERMITE GERAR OS ARQUIVOS (Mudei de true para false)
+    "noEmit": false,
+
+    // Tipagens do Node
+    "skipLibCheck": true,
+
+    // Outras Saídas úteis para Debug
+    "sourceMap": true,
+    "declaration": false, // Pode deixar false para simplificar se não for criar uma biblioteca
+
+    // Checagens estritas (Muito bom manter ativas!)
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "isolatedModules": true
+  },
+  "include": ["src/**/*"]
+}
