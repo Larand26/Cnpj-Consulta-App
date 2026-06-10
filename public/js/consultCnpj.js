@@ -1,3 +1,4 @@
+import buildDataContent from "./buildData.js";
 const btn = document.getElementById("btn-search");
 const input = document.getElementById("input-cnpj");
 
@@ -21,7 +22,7 @@ async function fetchCnpjData(cnpj) {
       console.error("Erro ao consultar o CNPJ:", data.message);
       return;
     }
-    // Aqui você pode adicionar código para exibir os dados na página
+    buildDataContent(data.data);
   } catch (error) {
     console.error("Erro ao consultar o CNPJ:", error);
   }
