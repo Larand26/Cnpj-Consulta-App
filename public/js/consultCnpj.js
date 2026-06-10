@@ -2,6 +2,13 @@ import buildDataContent from "./buildData.js";
 const btn = document.getElementById("btn-search");
 const input = document.getElementById("input-cnpj");
 
+input.addEventListener("keypress", (event) => {
+  if (event.key === "Enter") {
+    const cnpj = input.value;
+    fetchCnpjData(cnpj);
+  }
+});
+
 btn.addEventListener("click", () => {
   const cnpj = input.value;
   fetchCnpjData(cnpj);
