@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="/styles/nav.css" />
     <link rel="stylesheet" href="/styles/inputs.css" />
     <link rel="stylesheet" href="/styles/data.css" />
+    <link rel="stylesheet" href="/styles/filters.css" />
+    <link rel="stylesheet" href="/styles/overlay.css" />
   </head>
   <body>
     <nav>
@@ -33,7 +35,47 @@
       <section class="data-container">
         <div class="data-content" id="data-content"></div>
       </section>
+      <section class="filters-container open" id="filters-container">
+        <i class="fa-solid fa-filter"></i>
+        <hr />
+        <div class="filters-content" id="filters-content">
+          <div class="filter">
+            <input
+              type="checkbox"
+              name="Razão Social"
+              id="filter-razao-social"
+            />
+            <label for="filter-razao-social">Razão Social</label>
+          </div>
+          <div class="filter">
+            <input
+              type="checkbox"
+              name="Razão Social"
+              id="filter-razao-social"
+            />
+            <label for="filter-razao-social">Razão Social</label>
+          </div>
+          <div class="filter">
+            <input
+              type="checkbox"
+              name="Razão Social"
+              id="filter-razao-social"
+            />
+            <label for="filter-razao-social">Razão Social</label>
+          </div>
+          <div class="filter">
+            <input
+              type="checkbox"
+              name="Razão Social"
+              id="filter-razao-social"
+            />
+            <label for="filter-razao-social">Razão Social</label>
+          </div>
+        </div>
+      </section>
     </main>
+    <div class="overlay" id="overlay"></div>
     <script type="module" src="/js/consultCnpj.js"></script>
+    <script type="module" src="/js/openFilters.js"></script>
   </body>
 </html>
