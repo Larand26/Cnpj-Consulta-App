@@ -1,77 +1,95 @@
 import { formatDate } from "./utils.js";
 
 const content = document.getElementById("data-content");
-function buildData(data) {
-  return `
-    <div class="data-card">
-            <h2 class="data-card-title">${data.title}</h2>
-            <p class="data-card-value">${data.value}</p>
-          </div>
-    `;
+
+function safeText(value) {
+  return value === undefined || value === null || value === ""
+    ? "Não disponível"
+    : String(value);
 }
-function buildDataArray(dataArray) {
-  const values = dataArray.values
-    .map((value) => `<p class="data-card-value">${value}</p>`)
-    .join("");
-  return `
-    <div class="data-card">
-            <h2 class="data-card-title">${dataArray.title}</h2>
-            ${values}
-          </div>
-    `;
+
+function createCard(title, values) {
+  const card = document.createElement("div");
+  card.className = "data-card";
+
+  const h2 = document.createElement("h2");
+  h2.className = "data-card-title";
+  h2.textContent = title;
+  card.appendChild(h2);
+
+  if (Array.isArray(values)) {
+    values.forEach((v) => {
+      const p = document.createElement("p");
+      p.className = "data-card-value";
+      p.textContent = safeText(v);
+      card.appendChild(p);
+    });
+  } else {
+    const p = document.createElement("p");
+    p.className = "data-card-value";
+    p.style.whiteSpace = "pre-line";
+    p.textContent = safeText(values);
+    card.appendChild(p);
+  }
+
+  return card;
 }
 
 export default function buildDataContent(data) {
+  if (!content) return;
   content.innerHTML = "";
+
   if (!data) {
-    content.innerHTML = "<p>Dados não encontrados.</p>";
+    const p = document.createElement("p");
+    p.textContent = "Dados não encontrados.";
+    content.appendChild(p);
     return;
   }
-  console.log("Construindo conteúdo com os dados:", data);
-  const razaoSocial = buildData({
-    title: "Razão Social",
-    value: data.razao_social,
-  });
-  const atvPrincipal = buildData({
-    title: "Atividade Principal",
-    value: data.estabelecimento.atividade_principal.descricao,
-  });
-  const atvSecundarias = buildDataArray({
-    title: "Atividades Secundárias",
-    values: data.estabelecimento.atividades_secundarias.map(
-      (atv) => atv.descricao,
-    ),
-  });
-  const endereco = buildData({
-    title: "Endereço",
-    value: `${data.estabelecimento.logradouro}, ${data.estabelecimento.numero} - ${data.estabelecimento.bairro}, ${data.estabelecimento.cidade.nome} \n ${data.estabelecimento.cep}`,
-  });
-  const email = buildData({
-    title: "Email",
-    value: data.estabelecimento.email || "Não disponível",
-  });
-  const socios = buildDataArray({
-    title: "Sócios",
-    values: data.socios.map((socio) => socio.nome),
-  });
-  const inscricaoEstadual = buildDataArray({
-    title: "Inscrição Estadual",
-    values: [
-      data.estabelecimento.inscricoes_estaduais.find((i) => i.ativo)
-        ?.inscricao_estadual || "Não disponível",
-      formatDate(
-        data.estabelecimento.inscricoes_estaduais.find((i) => i.ativo)
-          ?.atualizado_em,
-      ) || "Não disponível",
-    ],
-  });
 
-  content.innerHTML =
-    razaoSocial +
-    atvPrincipal +
-    atvSecundarias +
-    endereco +
-    email +
-    socios +
-    inscricaoEstadual;
+  const est = data.estabelecimento || {};
+
+  const razaoSocialCard = createCard("Razão Social", data.razao_social);
+
+  const atvPrincipalCard = createCard(
+    "Atividade Principal",
+    est.atividade_principal?.descricao,
+  );
+
+  const atvSecundariasCard = createCard(
+    "Atividades Secundárias",
+    (est.atividades_secundarias || []).map((a) => a.descricao),
+  );
+
+  const enderecoParts = [
+    est.logradouro,
+    est.numero ? String(est.numero) : null,
+    est.bairro,
+    est.cidade?.nome,
+  ].filter(Boolean);
+  const enderecoText =
+    `${enderecoParts.join(", ")} ${est.cep ? "\n" + est.cep : ""}`.trim();
+  const enderecoCard = createCard("Endereço", enderecoText || "Não disponível");
+
+  const emailCard = createCard("Email", est.email || "Não disponível");
+
+  const sociosCard = createCard(
+    "Sócios",
+    (data.socios || []).map((s) => s.nome),
+  );
+
+  const inscricaoAtiva = (est.inscricoes_estaduais || []).find((i) => i.ativo);
+  const inscricaoCard = createCard("Inscrição Estadual", [
+    inscricaoAtiva?.inscricao_estadual || "Não disponível",
+    inscricaoAtiva?.atualizado_em
+      ? formatDate(inscricaoAtiva.atualizado_em)
+      : "Não disponível",
+  ]);
+
+  content.appendChild(razaoSocialCard);
+  content.appendChild(atvPrincipalCard);
+  content.appendChild(atvSecundariasCard);
+  content.appendChild(enderecoCard);
+  content.appendChild(emailCard);
+  content.appendChild(sociosCard);
+  content.appendChild(inscricaoCard);
 }
